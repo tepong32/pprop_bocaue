@@ -1,0 +1,117 @@
+from django.db import models
+from django.contrib.auth.models import User
+from PIL import Image
+from django.urls import reverse
+
+
+# modify the forms.py file to match the attributes changed here!
+# remember to register each model to the admin.py file EVERYTIME!
+
+
+class Profile(models.Model):
+
+	### profile-related stuffs not included on sign-up
+	user = models.OneToOneField(User, on_delete=models.CASCADE) # if the user is deleted, the profile will be deleted, too
+	f_name = models.CharField(max_length=70)
+	m_name = models.CharField(max_length=70)
+	l_name = models.CharField(max_length=70)
+	full_name = self.f_name + " " + self.m_name + " " + self.l_name 	# check if this line actually works
+	# birth_date = self.DateField()
+	address = models.Charfield(blank=True, default="Bocaue, Bulacan")
+	Male = "Male"
+	Female = "Female"
+	Select = "Select"
+	gender_choice = [
+		(Male, "Male"),
+		(Female, "Female"),
+		(Select, "Select")
+	]
+	gender = models.CharField(
+		max_length=10,
+		choices=gender_choice,
+		default=Select,
+	)
+
+	def dp_directory_path(instance, filename):
+		# file will be uploaded to MEDIA_ROOT/DP_<username>/<filename> ---check settings.py. MEDIA_ROOT=media
+		return 'users/{}/DP/{}'.format(instance.user.username, filename)
+	
+	### add validation methods for uploads if needed
+	if gender == "Male":
+		image = models.ImageField(default='default_m.png', upload_to=dp_directory_path) 
+	elif gender == "Female":
+		image = models.ImageField(default='default_f.png', upload_to=dp_directory_path)
+	else:
+		image = models.ImageField(default='default.jpg', upload_to=dp_directory_path)
+
+
+	### The user_loc tells where the person currently resides
+	Antipona = "Antipona"
+	Bagumbayan = "Bagumbayan"
+	Bambang = "Bambang"
+	Batia = "Batia"
+	Biñang_1st = "Biñang 1st"
+	Biñang_2nd = "Biñang 2nd"
+	Bolacan = "Bolacan"
+	Bundukan = "Bundukan"
+	Bunlo = "Bunlo"
+	Caingin = "Caingin"
+	Duhat = "Duhat"
+	Igulot = "Igulot"
+	Lolomboy = "Lolomboy"
+	Poblacion = "Poblacion"
+	Sulucan = "Sulucan"
+	Taal = "Taal"
+	Tambobong = "Tambobong"
+	Turo = "Turo"
+	Wakas = "Wakas"
+	Select = "Select"
+	
+	user_loc_choices = [
+		(Antipona, "Antipona"),
+		(Bagumbayan, "Bagumbayan"),
+		(Bambang, "Bambang"),
+		(Bishop, "Bishop"),
+		(Batia, "Batia"),
+		(Biñang_1st, "Biñang_1st"),
+		(Biñang_2nd, "Biñang_2nd"),
+		(Bolacan, "Bolacan"),
+		(Bundukan, "Bundukan"),
+		(Bunlo, "Bunlo"),
+		(Caingin, "Caingin"),
+		(Duhat, "Duhat"),
+		(Igulot, "Igulot"),
+		(Lolomboy, "Lolomboy"),
+		(Poblacion, "Poblacion"),
+		(Sulucan, "Sulucan"),
+		(Taal, "Taal"),
+		(Tambobong, "Tambobong"),
+		(Turo, "Turo"),
+		(Wakas, "Wakas"),
+		(Select, "Select")
+	]
+	user_loc = models.CharField(
+		max_length=10,
+		choices=user_loc_choices,
+		default=Select,
+	)
+
+	# user_loc that will be displayed on the user's profile (in minified version)
+	def loc(self): 
+		return self.user_loc
+	
+
+	def __str__(self):
+		return f"{self.user.username}"
+
+	def get_absolute_url(self):
+		return reverse('profile', kwargs={'pk': self.pk})
+
+	def save(self, *args, **kwargs):		# for resizing/downsizing images
+		super(Profile, self).save(*args, **kwargs)
+
+		img = Image.open(self.image.path)	# open the image of the current instance
+		if img.height > 600 or img.width > 600:	# for sizing-down the images to conserve memory in the server
+			output_size = (600, 600)
+			img.thumbnail(output_size)
+			img.save(self.image.path)
