@@ -22,11 +22,19 @@
                        alt="User profile picture" style="width: 150px; height: 150px">
                 </div>
                 
-                <h2 class="profile-username text-center">{{user.username}}
+                <h2 class="profile-username text-center">
+                  <span>{{user.profile}}</span> | 
+                  
 
                 {% if user.username == request.user.username %}
                   <small>
-                    <a title="Edit profile" class="fa fa-edit text-success" href="{% url 'profile-edit' user.username %}"></a>
+                    <a title="Edit profile" class="fa fa-edit text-success" href="{% url 'profile-edit' user.username %}">
+                      <span class="text-primary">{{user.username}}</span>
+                    </a>
+                  </small>
+                {% else %}
+                  <small>
+                    <span class="text-primary">{{user.username}}</span>
                   </small>
                 {% endif %}
                 </h2>
@@ -53,7 +61,7 @@
             <!-- About Me Box -->
             <div class="card card-primary col ml-1">
               <div class="card-header">
-                <h3 class="card-title">About Me</h3>
+                <h3 class="card-title">About</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -63,23 +71,28 @@
 
                 <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                <p class="text-muted">{{user.profile.location}}</p>
+                <p class="text-muted">{{user.profile.user_loc}}</p>
 
                 <hr>
 
-                <!-- Pro'ly, you need to add the Skills attribute to the Profile model. For now, remove this div or just leave this here. -->
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+                <!-- Maybe, by default, this should be hidden? Personally Identifiable Information -->
+                <strong><i class="fas fa-pencil-alt mr-1"></i> Personal Info: </strong>
 
                 <p class="text-muted">
-                  <span class="tag tag-danger">Add "skills" attribute to model</span><br>
-                  <span class="tag tag-danger">Then use a For-Loop here</span><br>
-                  <span class="tag tag-danger">To display them</span>
+                  <span class=""></span>{{user.profile.address}}<br>
+                  <span class=""></span>{{user.profile.gender}}<br>
+                  <span class=""></span>{{user.profile.bday}}<br>
+                  <span class=""></span>{{user.profile.address}}<br>
+                  <span class=""></span>{{user.profile.address}}<br>
+                  <span class=""></span>{{user.profile.address}}<br>
+                  <span class=""></span>{{user.profile.address}}<br>
+                  <span class=""></span>{{user.profile.address}}<br>
 
                 </p>
 
                 <hr>
 
-                <strong><i class="mr-1"></i>Member since {{ user.date_joined|date:"F Y" }}</strong>
+                <strong><i class="mr-1"></i>Added: {{ user.date_joined|date:"F Y" }}</strong>
               </div>
               <!-- /.card-body -->
             </div>

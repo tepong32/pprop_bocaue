@@ -25,10 +25,11 @@ class Profile(models.Model):
 
 	### profile-related stuffs not included on sign-up
 	user = models.OneToOneField(User, on_delete=models.CASCADE) # if the user is deleted, the profile will be deleted, too
-	f_name = models.CharField(max_length=70)
-	m_name = models.CharField(max_length=70)
-	l_name = models.CharField(max_length=70)
-	full_name = str(f_name) + " " + str(m_name) + " " + str(l_name) 	# check if this line actually works
+	first_name = models.CharField(max_length=70)
+	middle_name = models.CharField(max_length=70, blank=True, help_text="Optional, but helpful.")
+	last_name = models.CharField(max_length=70)
+	suffix = models.CharField(max_length=3, blank=True)
+	full_name = str(first_name) + " " + str(middle_name) + " " + str(last_name) + " " + str(suffix)	# check if this line actually works
 	# birth_date = self.DateField()
 	address = models.CharField(max_length=70, default="Bocaue, Bulacan")
 	Male = "Male"
@@ -104,12 +105,13 @@ class Profile(models.Model):
 	)
 
 	# user_loc that will be displayed on the user's profile (in minified version)
+	# not being used ATM
 	def loc(self): 
 		return self.user_loc
 	
 
 	def __str__(self):
-		return f"{self.user.username}"
+		return f'{self.user.profile.first_name + " " + self.user.profile.middle_name + " " + self.user.profile.last_name + " " + self.user.profile.suffix}'
 
 	def get_absolute_url(self):
 		return reverse('profile', kwargs={'pk': self.pk})
