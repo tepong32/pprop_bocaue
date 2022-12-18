@@ -1,8 +1,8 @@
 {% load static %}
 <div class="row" >
 	
-	<div class="container overflow-auto col-lg-12 col-sm-12 mb-2 mt-3" style="min-height: 400px; max-height:800px;margin-bottom: 5px; padding: 0;">
-		<div class="col-12 col-sm-6 col-lg-12">
+	<div class="container overflow-auto col-12 mb-2 mt-3" style="min-height: 400px; max-height:800px;margin-bottom: 5px; padding: 0;">
+		<div style="min-height:0px">
 			<div class="card card-primary card-tabs">
 			  <div class="card-header p-0 pt-1">
 			    <ul class="nav nav-tabs" id="custom-tabs-tab" role="tablist">
@@ -16,7 +16,7 @@
 			        <a class="nav-link" id="custom-tabs-members-tab" data-toggle="pill" href="#custom-tabs-members" role="tab" aria-controls="custom-tabs-members" aria-selected="false">Newest Members:</a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" id="custom-tabs-etc-tab" data-toggle="pill" href="#custom-tabs-etc" role="tab" aria-controls="custom-tabs-etc" aria-selected="true">Free Stuffs! <small>(preview)</small></a>
+			        <a class="nav-link" id="custom-tabs-etc-tab" data-toggle="pill" href="#custom-tabs-etc" role="tab" aria-controls="custom-tabs-etc" aria-selected="true">Mayor Joni <small>(Pag-alala)</small></a>
 			      </li>
 			    </ul>
 			  </div>
@@ -58,7 +58,6 @@
 					<div class="card-body text-center">
 						<h6 class="quoteText text-danger">Say hello to our newest members!</h6>
 						<small>
-							Nag-register sila para mag-share! YES! | 
 							<i>Users count: {{ usercount }}</i><br>
 						</small>
 						{% for u in users %}
@@ -75,16 +74,24 @@
 					</div>
 			      </div>
 
-			      <!-- Free -->
-			      <div class="tab-pane fade" id="custom-tabs-etc" role="tabpanel" aria-labelledby="custom-tabs-etc-tab">
-			      	<a href="#" title="Check-out these awesome stuffs!">
-			      		<h6 class="quoteText text-primary">Check-out these awesome stuffs! All for free!</h6>
-				        {% for item in free %}
-							<div class="col-10">
-								<strong><i>{{item.title|truncatechars:50}}</i></strong>
+			      <!-- Mayor Joni -->
+			      <div class="tab-pane fade overflow-auto" id="custom-tabs-etc" role="tabpanel" aria-labelledby="custom-tabs-etc-tab">
+			      	<div class="row">
+				      	<div class="col col-lg-6 col-sm-12" id="joniPic">
+				      		<img src="/media/bocaue_imgs/footer.png" style="width: 100%; min-height:250px">
+				      		<div class="card-footer">
+				      			Some descriptive text here
+				      		</div>
+				      	</div>
+
+				      	<div class="col col-lg-6 col-sm-12" id="joniTesti">
+				      		<div class="card col p-1">
+							    <div class="fb-comments" data-href="https://localhost/" data-width="100%" data-numposts="5" style="max-height:340px;"></div>
+							    <!-- max-height:340 was to avoid having a 2nd vertical scrollbar on the card -->
 							</div>
-						{% endfor %}
-					</a>
+				      		
+				      	</div>
+			      	</div>
 			      </div>
 			    </div>
 			  </div>
@@ -92,9 +99,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- dev profile -->
-	{#% include 'home/teppyinfocard.html' %#}
 
     <!-- Documentary -->
     <div class="text-center mt-2">
